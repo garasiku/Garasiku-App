@@ -20,7 +20,7 @@ import { Textarea } from "@/components/shadcn/textarea"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/shadcn/popover"
 import { CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/shadcn/calendar"
-import { cn, formatRupiah } from "@/lib/utils"
+import { cn, formatNumber, formatRupiah } from "@/lib/utils"
 import { addMonths, format } from "date-fns"
 import { Switch } from "@/components/shadcn/switch"
 import { Separator } from "@/components/shadcn/separator"
@@ -42,6 +42,7 @@ const formSchema = z.object({
   mechanicName: z.string().optional(),
   task: z.string({ message: "Jasa harus terisi" }).min(1, { message: "Jasa harus terisi" }),
   sparepart: z.string().optional(),
+  material: z.string().optional(),
   notes: z.string().optional(),
   isSetNextReminder: z.boolean(),
   nextScheduleDate: z.date().optional(),
@@ -72,6 +73,7 @@ export function CompleteServiceDialog({ service, onSave }: CompleteServiceDialog
       mechanicName: service.mechanicName ?? undefined,
       task: service.task ?? undefined,
       sparepart: service.sparepart ?? undefined,
+      material: service.material ?? undefined,
       notes: service.notes ?? undefined,
       isSetNextReminder: true
     },
@@ -98,6 +100,7 @@ export function CompleteServiceDialog({ service, onSave }: CompleteServiceDialog
         mechanic_name: values.mechanicName,
         task: values.task,
         sparepart: values.sparepart,
+        material: values.material,
         notes: values.notes,
         status: COMPLETED,
       }
@@ -163,6 +166,7 @@ export function CompleteServiceDialog({ service, onSave }: CompleteServiceDialog
         mechanicName: service.mechanicName ?? undefined,
         task: service.task ?? undefined,
         sparepart: service.sparepart ?? undefined,
+        material: service.material ?? undefined,
         notes: service.notes ?? undefined,
         isSetNextReminder: true
       });
@@ -246,6 +250,11 @@ export function CompleteServiceDialog({ service, onSave }: CompleteServiceDialog
                           <Input
                             placeholder="Masukkan kilometer kendaraan"
                             {...field}
+                            value={formatNumber(field.value)}
+                            onChange={(e) => {
+                              const raw = e.target.value.replace(/\D/g, "");
+                              field.onChange(raw);
+                            }}
                             className="w-full"
                           />
                         </FormControl>
@@ -324,6 +333,24 @@ export function CompleteServiceDialog({ service, onSave }: CompleteServiceDialog
                         <FormControl>
                           <Textarea
                             placeholder="Masukkan sparepart servis"
+                            {...field}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="material"
+                    render={({ field }) => (
+                      <FormItem className="space-y-1">
+                        <FormLabel className="font-medium">Bahan</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Masukkan bahan servis"
                             {...field}
                             className="w-full"
                           />

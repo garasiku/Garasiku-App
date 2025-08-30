@@ -17,5 +17,6 @@ export interface Service{
     mechanicName?: string;
     task?: string;
     sparepart?: string;
+    material?: string;
     notes?: string;
 }

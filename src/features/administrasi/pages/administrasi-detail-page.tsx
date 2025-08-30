@@ -198,7 +198,7 @@ export default function AdministrasiDetailPage() {
             <SectionCard title="Rincian Administrasi">
               <div className="grid grid-cols-1 gap-3 py-1">
                 <div className="grid grid-cols-2 gap-3">
-                  <SectionItem label="Jatuh Tempo Baru" value={administration.newDueDate} />
+                  <SectionItem label="Jatuh Tempo Baru" value={formatDate(administration.newDueDate)} />
                   <SectionItem label="Biaya" value={administration.totalCost ? `Rp ${formatRupiah(administration.totalCost)}` : undefined} />
                 </div>
                 <SectionItem label="Catatan" value={administration.notes} />

@@ -11,14 +11,19 @@ import { toast } from "sonner";
 export default function CariKendaraanPage() {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
+  const [lastSearch, setLastSearch] = useState("");
   const [vehicle, setVehicle] = useState<Vehicle | null>(null);
 
   const fetchVehicle = async () => {
+    const cleanedSearch = search.replace(/\s+/g, "").toUpperCase();
+    if (cleanedSearch === lastSearch) {
+      toast.info("Plat nomor sama, tidak melakukan pencarian ulang.");
+      return;
+    }
+    
     setLoading(true);
 
     try {
-      const cleanedSearch = search.replace(/\s+/g, "").toUpperCase();
-
       const { data, error } = await supabase
         .rpc("search_vehicles_by_plates", { cleaned_plate: cleanedSearch });
 
@@ -47,8 +52,11 @@ export default function CariKendaraanPage() {
           },
         });
       } else {
+        setVehicle(null);
         throw new Error("Kendaraan tidak ditemukan");
       }
+
+      setLastSearch(cleanedSearch);
     } catch (error) {
       console.error(error);
       toast.error("Gagal mencari data kendaraan: " + error);

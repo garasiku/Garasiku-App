@@ -28,7 +28,7 @@ import { DataBarCard } from "@/components/shared/data-bar-card";
 import { Link, useParams } from "react-router-dom";
 import { supabase } from "@/lib/supabaseClient"
 import { EmptyState } from "@/components/shared/empty-state";
-import { formatDate, formatRupiah } from "@/lib/utils";
+import { formatDate, formatNumber, formatRupiah } from "@/lib/utils";
 import { LoadingOverlay } from "@/components/shared/loading-overlay";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth-context";
@@ -91,6 +91,7 @@ export default function ServisDetailPage() {
                 mechanicName: data.mechanic_name,
                 task: data.task,
                 sparepart: data.sparepart,
+                material: data.material,
                 notes: data.notes,
             });
 
@@ -305,12 +306,13 @@ export default function ServisDetailPage() {
                         {service && (
                             <div className="grid grid-cols-1 gap-3 py-1">
                                 <div className="grid grid-cols-2 gap-3">
-                                    <SectionItem label="Kilometer" value={service.mileage ? `${service.mileage} KM` : undefined} />
+                                    <SectionItem label="Kilometer" value={service.mileage ? `${formatNumber(service.mileage)} KM` : undefined} />
                                     <SectionItem label="Biaya" value={service.totalCost ? `Rp ${formatRupiah(service.totalCost)}` : undefined} />
                                 </div>
                                 <SectionItem label="Nama Mekanik" value={service.mechanicName} />
                                 <SectionItem label="Jasa" value={service.task} />
                                 <SectionItem label="Sparepart" value={service.sparepart} />
+                                <SectionItem label="Bahan" value={service.material} />
                                 <SectionItem label="Catatan" value={service.notes} />
                             </div>
                         )}

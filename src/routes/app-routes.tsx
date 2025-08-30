@@ -53,7 +53,7 @@ export default function AppRoutes() {
             <Route element={<AuthenticatedLayout />}>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/garasi/daftar-kendaraan" element={<DaftarKendaraanPage />} />
+              <Route path="/garasi/daftar-kendaraan/:type" element={<DaftarKendaraanPage />} />
               <Route path="/garasi/cari-kendaraan" element={<CariKendaraanPage />} />
               <Route path="/kendaraan/detail/:id" element={<KendaraanDetailPage />} />
               <Route path="/kendaraan/detail/:id/aktivitas-servis" element={<AktivitasServisKendaraanPage />} />

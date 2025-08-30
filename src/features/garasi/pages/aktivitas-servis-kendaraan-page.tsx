@@ -46,7 +46,7 @@ export default function AktivitasServisKendaraanPage() {
                     .from("service")
                     .select(`
                         id, ticket_num, vehicle_id, type, schedule_date, start_date, end_date,
-                        status, task, sparepart,
+                        status, task, sparepart, material,
                         vehicles:vehicle_id(id, name, category, license_plate)
                     `)
                     .eq("vehicle_id", vehicleId)
@@ -72,6 +72,7 @@ export default function AktivitasServisKendaraanPage() {
                         status: s.status,
                         task: s.task,
                         sparepart: s.sparepart,
+                        material: s.material,
                     }));
                     setListServices(mappedServices);
                 }
@@ -98,7 +99,8 @@ export default function AktivitasServisKendaraanPage() {
             const matchesSearch =
                 (service.ticketNum && service.ticketNum.toLowerCase().includes(searchQuery.toLowerCase())) ||
                 (service.task && service.task.toLowerCase().includes(searchQuery.toLowerCase())) ||
-                (service.sparepart && service.sparepart.toLowerCase().includes(searchQuery.toLowerCase()))
+                (service.sparepart && service.sparepart.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                (service.material && service.material.toLowerCase().includes(searchQuery.toLowerCase()))
             const matchesType = selectType === "all" || service.type?.toLowerCase() === selectType.toLowerCase()
             const matchesStatus = selectStatus === "all" || service.status?.toLowerCase() === selectStatus.toLowerCase()
 

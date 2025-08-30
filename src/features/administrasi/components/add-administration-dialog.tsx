@@ -76,6 +76,8 @@ export function AddAdministrationDialog({ onSave }: AddAdministrationDialogProps
   const [open, setOpen] = useState(false);
   const [listVehicle, setListVehicle] = useState<Vehicle[]>([]);
 
+  const [vehicleComboboxOpen, setVehicleComboboxOpen] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -260,7 +262,7 @@ export function AddAdministrationDialog({ onSave }: AddAdministrationDialogProps
                     render={({ field }) => (
                       <FormItem className="space-y-1">
                         <FormLabel className="font-medium">Kendaraan</FormLabel>
-                        <Popover>
+                        <Popover open={vehicleComboboxOpen} onOpenChange={setVehicleComboboxOpen}>
                           <PopoverTrigger asChild>
                             <FormControl>
                               <Button
@@ -299,6 +301,7 @@ export function AddAdministrationDialog({ onSave }: AddAdministrationDialogProps
                                       key={vehicle.id}
                                       onSelect={() => {
                                         form.setValue("vehicleId", vehicle.id || "");
+                                        setVehicleComboboxOpen(false);
                                       }}
                                     >
                                       <span className="whitespace-normal break-words text-left">

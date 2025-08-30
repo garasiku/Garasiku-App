@@ -9,16 +9,26 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/lib/supabaseClient"
 import { VEHICLE_CATEGORY_PARAM } from "@/lib/constants"
 import { LoadingOverlay } from "@/components/shared/loading-overlay"
+import { Navigate, useNavigate, useParams } from "react-router-dom"
 
 type SelectOption = {
   label: string
   value: string
 }
 
+const validTypes = ["active", "sold"];
+
 export default function DaftarKendaraanPage() {
   const [loading, setLoading] = useState(false);
 
-  const [activeTab, setActiveTab] = useState("active");
+  const navigate = useNavigate();
+
+  const { type } = useParams();
+  if (!type || !validTypes.includes(type)) {
+    return <Navigate to="/garasi/daftar-kendaraan/active" replace />;
+  }
+
+  const [activeTab, setActiveTab] = useState(type);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectCategory, setSelectCategory] = useState("all");
 
@@ -82,6 +92,12 @@ export default function DaftarKendaraanPage() {
   };
 
   useEffect(() => {
+    if (validTypes.includes(type)) {
+      setActiveTab(type);
+    }
+  }, [type]);
+
+  useEffect(() => {
     const fetchAll = async () => {
       setLoading(true);
       try {
@@ -99,7 +115,6 @@ export default function DaftarKendaraanPage() {
     fetchAll();
   }, []);
 
-
   const filteredAndSortedVehicle = useMemo(() => {
     const filtered = listVehicles.filter((vehicle) => {
       const matchesStatus =
@@ -116,6 +131,11 @@ export default function DaftarKendaraanPage() {
     return filtered
   }, [activeTab, searchQuery, selectCategory, listVehicles])
 
+  const handleTabChange = (val: string) => {
+    setActiveTab(val);
+    navigate(`/garasi/daftar-kendaraan/${val}`);
+  };
+
   return (
     <>
       <LoadingOverlay loading={loading} />
@@ -127,7 +147,7 @@ export default function DaftarKendaraanPage() {
             <AddVehicleDialog onSave={() => fetchListVehicles()} />
           </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
             <TabsList className="w-full md:max-w-sm">
               <TabsTrigger value="active">Aktif</TabsTrigger>
               <TabsTrigger value="sold">Terjual</TabsTrigger>

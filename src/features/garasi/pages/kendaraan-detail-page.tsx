@@ -31,7 +31,7 @@ import { PARAM_GROUP_KELENGKAPAN_KENDARAAN } from "@/lib/constants"
 import { formatDate } from "@/lib/utils"
 import { LoadingOverlay } from "@/components/shared/loading-overlay"
 import { useAuth } from "@/lib/auth-context"
-import { format } from "date-fns"
+import { SellVehicleDialog } from "../components/sell-vehicle-dialog"
 
 export default function KendaraanDetailPage() {
     const { isOwner, isDivisi, isWSHead, isDriver } = useAuth();
@@ -415,7 +415,7 @@ export default function KendaraanDetailPage() {
             }
 
             toast.success(`Kendaraan "${vehicle.name}" berhasil dihapus.`);
-            navigate("/garasi/daftar-kendaraan");
+            navigate("/garasi/daftar-kendaraan/active");
         } catch (error) {
             console.error(error);
             toast.error("Gagal menghapus kendaraan: " + error);
@@ -424,20 +424,19 @@ export default function KendaraanDetailPage() {
         }
     };
 
-    const handleSellVehicle = async () => {
+    const handleActivateVehicle = async () => {
         if (!vehicle?.id) return;
         const vehicleId = vehicle.id;
         setLoading(true);
 
         try {
-            const todayDateOnly = format(new Date(), "yyyy-MM-dd");
-            const isSelling = !vehicle.isSold;
+            const isSelling = false;
 
             const { error } = await supabase
                 .from("vehicles")
                 .update({
                     is_sold: isSelling,
-                    sold_date: isSelling ? todayDateOnly : null,
+                    sold_date: null,
                 })
                 .eq("id", vehicleId);
 
@@ -445,7 +444,7 @@ export default function KendaraanDetailPage() {
                 throw new Error("Gagal mengubah status kendaraan: " + error.message);
             }
 
-            toast.success(`Kendaraan "${vehicle.name}" berhasil diubah menjadi ${isSelling ? "terjual" : "aktif"}.`);
+            toast.success(`Kendaraan "${vehicle.name}" berhasil diubah menjadi aktif.`);
             await fetchVehicleDetails(vehicleId);
         } catch (error) {
             console.error(error);
@@ -534,23 +533,7 @@ export default function KendaraanDetailPage() {
                                     </AlertDialog>
 
                                     {!vehicle.isSold && (
-                                        <AlertDialog>
-                                            <AlertDialogTrigger asChild>
-                                                <Button variant="default">Jual Kendaraan</Button>
-                                            </AlertDialogTrigger>
-                                            <AlertDialogContent>
-                                                <AlertDialogHeader>
-                                                    <AlertDialogTitle>Jual Kendaraan?</AlertDialogTitle>
-                                                    <AlertDialogDescription>
-                                                        Apakah Anda yakin ingin menjual kendaraan {vehicle.name}?
-                                                    </AlertDialogDescription>
-                                                </AlertDialogHeader>
-                                                <AlertDialogFooter>
-                                                    <AlertDialogCancel>Tidak</AlertDialogCancel>
-                                                    <AlertDialogAction onClick={handleSellVehicle}>Jual</AlertDialogAction>
-                                                </AlertDialogFooter>
-                                            </AlertDialogContent>
-                                        </AlertDialog>
+                                        <SellVehicleDialog vehicle={vehicle} onSave={() => fetchVehicleDetails(id!)}/>
                                     )}
 
                                     {vehicle.isSold && (
@@ -567,7 +550,7 @@ export default function KendaraanDetailPage() {
                                                 </AlertDialogHeader>
                                                 <AlertDialogFooter>
                                                     <AlertDialogCancel>Tidak</AlertDialogCancel>
-                                                    <AlertDialogAction onClick={handleSellVehicle}>Aktifkan</AlertDialogAction>
+                                                    <AlertDialogAction onClick={handleActivateVehicle}>Aktifkan</AlertDialogAction>
                                                 </AlertDialogFooter>
                                             </AlertDialogContent>
                                         </AlertDialog>

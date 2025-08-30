@@ -11,6 +11,12 @@ export function formatRupiah(value: string | number | null | undefined) {
   return number.toLocaleString("id-ID");
 }
 
+export function formatNumber(value: string | number | null | undefined) {
+  if (!value) return "";
+  const number = Number(value.toString().replace(/\D/g, ""));
+  return number.toLocaleString("id-ID");
+}
+
 export function formatDateTime(dateString?: string) {
   if (!dateString) return "-"
 

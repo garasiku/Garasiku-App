@@ -26,7 +26,7 @@ const items = [
   { title: "Dashboard", url: "dashboard", roles: [OWNER, DIVISI, WSHEAD, DRIVER, ADMIN] },
   {
     title: "Garasi", url: "garasi", roles: [OWNER, DIVISI, WSHEAD, DRIVER], child: [
-      { title: "Daftar Kendaraan", url: "daftar-kendaraan", roles: [OWNER, DIVISI] },
+      { title: "Daftar Kendaraan", url: "daftar-kendaraan/active", roles: [OWNER, DIVISI] },
       { title: "Cari Kendaraan", url: "cari-kendaraan", roles: [OWNER, DIVISI, WSHEAD, DRIVER] },
     ]
   },

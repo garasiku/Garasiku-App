@@ -1,0 +1,18 @@
+name: Weekly Task Reminder - Garasiku
+
+on:
+  schedule:
+    - cron: '0 1 * * 1'  # Runs at 08:00 WIB (UTC+7) every Monday
+  workflow_dispatch:      # Optional: allows manual run from UI
+
+jobs:
+  ping-api:
+    if: github.ref == 'refs/heads/main'  # ✅ ensures it's main only
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Hit API Reminder
+        env:
+          API_URL: ${{ secrets.API_URL }}
+        run: |
+          curl "$API_URL"

@@ -103,6 +103,7 @@ export default function ServisPage() {
         status: s.status,
         task: s.task,
         sparepart: s.sparepart,
+        material: s.material,
       })));
     }
   };
@@ -138,7 +139,8 @@ export default function ServisPage() {
         (service.vehicle?.licensePlate && service.vehicle?.licensePlate.toLowerCase().includes(searchQuery.toLowerCase())) ||
         (service.vehicle?.name && service.vehicle?.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
         (service.task && service.task.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (service.sparepart && service.sparepart.toLowerCase().includes(searchQuery.toLowerCase()));
+        (service.sparepart && service.sparepart.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (service.material && service.material.toLowerCase().includes(searchQuery.toLowerCase()));
       const matchesType = selectType === "all" || service.type?.toLowerCase() === selectType.toLowerCase();
 
       return matchesSearch && matchesType;

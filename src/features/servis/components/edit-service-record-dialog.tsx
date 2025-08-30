@@ -21,7 +21,7 @@ import { Service } from "@/models/service"
 import { Textarea } from "@/components/shadcn/textarea"
 import { supabase } from "@/lib/supabaseClient"
 import { toast } from "sonner"
-import { formatRupiah } from "@/lib/utils"
+import { formatNumber, formatRupiah } from "@/lib/utils"
 import { LoadingOverlay } from "@/components/shared/loading-overlay"
 
 interface EditServiceRecordDialogProps {
@@ -37,6 +37,7 @@ const formSchema = z.object({
   mechanicName: z.string().optional(),
   task: z.string({ message: "Jasa harus terisi" }).min(1, { message: "Jasa harus terisi" }),
   sparepart: z.string().optional(),
+  material: z.string().optional(),
   notes: z.string().optional(),
 });
 
@@ -53,6 +54,7 @@ export function EditServiceRecordDialog({ service, onSave }: EditServiceRecordDi
       mechanicName: service.mechanicName ?? undefined,
       task: service.task ?? undefined,
       sparepart: service.sparepart ?? undefined,
+      material: service.material ?? undefined,
       notes: service.notes ?? undefined,
     },
   })
@@ -69,6 +71,7 @@ export function EditServiceRecordDialog({ service, onSave }: EditServiceRecordDi
           mechanic_name: values.mechanicName,
           task: values.task,
           sparepart: values.sparepart,
+          material: values.material,
           notes: values.notes,
         })
         .eq("id", values.id)
@@ -106,6 +109,7 @@ export function EditServiceRecordDialog({ service, onSave }: EditServiceRecordDi
         mechanicName: service.mechanicName ?? undefined,
         task: service.task ?? undefined,
         sparepart: service.sparepart ?? undefined,
+        material: service.material ?? undefined,
         notes: service.notes ?? undefined,
       });
     } else {
@@ -143,9 +147,14 @@ export function EditServiceRecordDialog({ service, onSave }: EditServiceRecordDi
                         <FormLabel className="font-medium">Kilometer</FormLabel>
                         <FormControl>
                           <Input
-                            type="number"
                             placeholder="Masukkan kilometer kendaraan"
                             {...field}
+                            value={formatNumber(field.value)}
+                            onChange={(e) => {
+                              const raw = e.target.value.replace(/\D/g, "");
+                              field.onChange(raw);
+                            }}
+                            className="w-full"
                           />
                         </FormControl>
                         <FormMessage />
@@ -223,6 +232,24 @@ export function EditServiceRecordDialog({ service, onSave }: EditServiceRecordDi
                         <FormControl>
                           <Textarea
                             placeholder="Masukkan sparepart servis"
+                            {...field}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="material"
+                    render={({ field }) => (
+                      <FormItem className="space-y-1">
+                        <FormLabel className="font-medium">Bahan</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Masukkan bahan servis"
                             {...field}
                             className="w-full"
                           />
