@@ -52,6 +52,51 @@
   --sidebar-ring: #b3b3b3; /* oklch(0.708 0 0) */
 }
 
+.dark {
+  --radius: 0.625rem;
+  /* Translated Colors */
+  --default: #222222;
+  --medium: #757575;
+  --light: #b3b3b3;
+  --background: #fcfcfc; /* oklch(1 0 0) */
+  --foreground: #222222; /* oklch(0.145 0 0) */
+  --card: #fcfcfc; /* oklch(1 0 0) */
+  --card-foreground: #222222; /* oklch(0.145 0 0) */
+  --popover: #fcfcfc; /* oklch(1 0 0) */
+  --popover-foreground: #222222; /* oklch(0.145 0 0) */
+  --primary: #003366; /* oklch(0.205 0 0) */
+  --primary-foreground: #fcfcfc; /* oklch(0.985 0 0) */
+  --secondary: #0055aa; /* oklch(0.97 0 0) */
+  --secondary-foreground: #fcfcfc; /* oklch(0.205 0 0) */
+  --tertiary: #6699cc;
+  --tertiary-foreground: #fcfcfc;
+  --quarternary: #002244;
+  --quarternary-foreground: #fcfcfc;
+  --success: #28a745;
+  --success-foreground: #fcfcfc;
+  --muted: #f7f7f7; /* oklch(0.97 0 0) */
+  --muted-foreground: #8c8c8c; /* oklch(0.556 0 0) */
+  --accent: #f7f7f7; /* oklch(0.97 0 0) */
+  --accent-foreground: #333333; /* oklch(0.205 0 0) */
+  --destructive: #cc3333; /* oklch(0.577 0.245 27.325) */
+  --border: #d9d9d9; /* oklch(0.922 0 0) */
+  --input: #d9d9d9; /* oklch(0.922 0 0) */
+  --ring: #b3b3b3; /* oklch(0.708 0 0) */
+  --chart-1: #ff9900; /* oklch(0.646 0.222 41.116) */
+  --chart-2: #00b3b3; /* oklch(0.6 0.118 184.704) */
+  --chart-3: #6666ff; /* oklch(0.398 0.07 227.392) */
+  --chart-4: #99cc33; /* oklch(0.828 0.189 84.429) */
+  --chart-5: #ffcc33; /* oklch(0.769 0.188 70.08) */
+  --sidebar: #fcfcfc; /* oklch(0.985 0 0) */
+  --sidebar-foreground: #222222; /* oklch(0.145 0 0) */
+  --sidebar-primary: #333333; /* oklch(0.205 0 0) */
+  --sidebar-primary-foreground: #fcfcfc; /* oklch(0.985 0 0) */
+  --sidebar-accent: #f7f7f7; /* oklch(0.97 0 0) */
+  --sidebar-accent-foreground: #333333; /* oklch(0.205 0 0) */
+  --sidebar-border: #d9d9d9; /* oklch(0.922 0 0) */
+  --sidebar-ring: #b3b3b3; /* oklch(0.708 0 0) */
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
