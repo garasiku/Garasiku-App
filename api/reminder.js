@@ -48,7 +48,7 @@ function buildServiceEmail(tasks = []) {
 
   return `
     <div style="font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 8px; background: #ffffff; color: #333;">
-      <h2 style="color: #1a1a1a;">🔔 Weekly Reminder Garasiku</h2>
+      <h2 style="color: #1a1a1a;">🔔 Weekly Reminder Restore & Collect</h2>
       <h3>🚗 To-do Servis</h3>
       <p style="margin-bottom: 24px;">
         Berikut adalah ringkasan tugas servis yang telah dijadwalkan dalam 30 hari ke depan.
@@ -69,7 +69,7 @@ function buildServiceEmail(tasks = []) {
           : "<p>Tidak ada to-do servis yang telah dijadwalkan dalam 30 hari ke depan.</p>"
       }
       <p style="font-size: 13px; color: #999; margin-top: 48px;">
-        Email ini dikirim secara otomatis oleh sistem Garasiku. Harap tidak membalas email ini.
+        Email ini dikirim secara otomatis oleh sistem Restore & Collect. Harap tidak membalas email ini.
       </p>
     </div>
   `;
@@ -97,7 +97,7 @@ function buildAdminEmail(tasks = []) {
 
   return `
     <div style="font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 8px; background: #ffffff; color: #333;">
-      <h2 style="color: #1a1a1a;">🔔 Weekly Reminder Garasiku</h2>
+      <h2 style="color: #1a1a1a;">🔔 Weekly Reminder Restore & Collect</h2>
       <h3>📄 To-do Administrasi</h3>
       <p style="margin-bottom: 24px;">
         Berikut adalah ringkasan tugas administrasi yang akan jatuh tempo dalam 30 hari ke depan.
@@ -118,7 +118,7 @@ function buildAdminEmail(tasks = []) {
           : "<p>Tidak ada to-do administrasi yang jatuh tempo dalam 30 hari ke depan.</p>"
       }
       <p style="font-size: 13px; color: #999; margin-top: 48px;">
-        Email ini dikirim secara otomatis oleh sistem Garasiku. Harap tidak membalas email ini.
+        Email ini dikirim secara otomatis oleh sistem Restore & Collect. Harap tidak membalas email ini.
       </p>
     </div>
   `;
@@ -160,7 +160,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ message: "Failed to fetch tasks" });
     }
 
-    const sender = `Garasiku Reminder <${process.env.GMAIL_USER}>`;
+    const sender = `Restore & Collect Reminder <${process.env.GMAIL_USER}>`;
 
     // recipients split by comma
     const serviceRecipients = process.env.SERVICE_RECEIVER_EMAIL
@@ -180,7 +180,7 @@ export default async function handler(req, res) {
       serviceInfo = await transporter.sendMail({
         from: sender,
         to: serviceRecipients,
-        subject: "Weekly Service Task Reminder - Garasiku",
+        subject: "Weekly Service Task Reminder - Restore & Collect",
         html: buildServiceEmail(serviceTasks ?? []),
       });
       console.log("Service email sent:", serviceInfo.messageId);
@@ -192,7 +192,7 @@ export default async function handler(req, res) {
       adminInfo = await transporter.sendMail({
         from: sender,
         to: adminRecipients,
-        subject: "Weekly Administration Task Reminder - Garasiku",
+        subject: "Weekly Administration Task Reminder - Restore & Collect",
         html: buildAdminEmail(adminTasks ?? []),
       });
       console.log("Administration email sent:", adminInfo.messageId);

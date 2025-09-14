@@ -19,6 +19,8 @@ import { toast } from "sonner"
 import { useAuth } from "@/lib/auth-context"
 import { LoadingOverlay } from "@/components/shared/loading-overlay"
 import { ACTIVE } from "@/lib/constants"
+import faviconLight from "@/assets/favicon.png"
+import faviconDark from "@/assets/favicon-2.png"
 
 // Form schema
 const formSchema = z.object({
@@ -89,7 +91,18 @@ export default function LoginPage() {
       <LoadingOverlay loading={loading} />
 
       <div className="flex flex-col items-center justify-center min-h-screen px-5">
-        <h1 className="text-5xl font-bold mb-6">Garasiku</h1>
+        <div>
+          <img
+            src={faviconLight}
+            alt="Logo"
+            className="h-40 w-auto dark:hidden"
+          />
+          <img
+            src={faviconDark}
+            alt="Logo Dark"
+            className="h-40 w-auto hidden dark:block"
+          />
+        </div>
 
         <div className="bg-background w-full max-w-md p-6 md:p-8 rounded-lg border shadow-xs">
           <Form {...form}>
