@@ -79,6 +79,7 @@ export function AddParamDialog({ paramGroup, onSave }: AddParamDialogProps) {
         onSave(data);
       }
       setOpen(false);
+      reset();
     } catch (error) {
       console.error(error);
       toast.error("Terjadi kesalahan pada sistem: " + error);
@@ -87,11 +88,18 @@ export function AddParamDialog({ paramGroup, onSave }: AddParamDialogProps) {
     }
   }
 
+  function handleDialogChange(isOpen: boolean) {
+    setOpen(isOpen);
+    if (!isOpen) {
+      reset();
+    }
+  }
+
   return (
     <>
       <LoadingOverlay loading={loading} />
 
-      <Dialog open={open} onOpenChange={(val) => { setOpen(val); if (!val) reset(); }}>
+      <Dialog open={open} onOpenChange={handleDialogChange}>
         <DialogTrigger asChild>
           <div>
             <Button className="hidden sm:flex">
