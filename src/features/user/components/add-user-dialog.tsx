@@ -113,7 +113,8 @@ export function AddUserDialog({ onSave }: AddUserDialogProps) {
           isActive: values.isActive,
         })
       }
-      setOpen(false)
+      setOpen(false);
+      reset();
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message)

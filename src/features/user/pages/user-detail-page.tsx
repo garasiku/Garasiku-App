@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom"; // atau next/router jika pakai Next.js
+import { useNavigate, useParams } from "react-router-dom"; // atau next/router jika pakai Next.js
 import { supabase } from "@/lib/supabaseClient";
 
 import { User } from "@/models/user";
@@ -13,9 +13,13 @@ import { ChangePasswordDialog } from "../components/change-password-dialog";
 import { ACTIVE, INACTIVE, ROLE_PARAM } from "@/lib/constants";
 import { EmptyState } from "@/components/shared/empty-state";
 import { LoadingOverlay } from "@/components/shared/loading-overlay";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/shadcn/alert-dialog";
+import { Button } from "@/components/shadcn/button";
+import { toast } from "sonner";
 
 export default function UserDetailPage() {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
   const [user, setUser] = useState<User | null>(null);
@@ -93,6 +97,43 @@ export default function UserDetailPage() {
     fetchDetail();
   }, [id]);
 
+  const handleDeleteUser = async () => {
+    if (!user?.id) return;
+    const userId = user.id;
+    setLoading(true);
+
+    try {
+      const { data: sessionData } = await supabase.auth.getSession()
+      const accessToken = sessionData?.session?.access_token || ""
+
+      const res = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/user-admin`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ id: userId }),
+        }
+      );
+
+      const result = await res.json()
+      if (!res.ok) {
+        const errorMessage = result.error || result.message || "Gagal menghapus user"
+        throw new Error(errorMessage)
+      }
+
+      toast.success(`User "${user.username}" berhasil dihapus.`);
+      navigate("/user");
+    } catch (error) {
+      console.error(error);
+      toast.error("Gagal menghapus user: " + error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (!user && !loading) return (
     <EmptyState title="User Tidak Ditemukan" description="User dengan ID tersebut tidak tersedia." />
   );
@@ -144,9 +185,26 @@ export default function UserDetailPage() {
                   <SectionItem label="No Telepon" value={user.phone} />
                 </div>
 
-                <div className="flex flex-col gap-3 sm:grid sm:grid-cols-2">
+                <div className="flex flex-col gap-3 sm:grid sm:grid-cols-3">
                   <EditUserDialog user={user} onSave={() => fetchUserDetail(id!)} />
                   <ChangePasswordDialog user={user} />
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="destructive">Hapus User</Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Hapus User?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Apakah Anda yakin ingin menghapus user {user.username}?
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Tidak</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDeleteUser}>Hapus</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </div>
             </div>
