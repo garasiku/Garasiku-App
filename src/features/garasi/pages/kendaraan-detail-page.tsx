@@ -34,7 +34,7 @@ import { useAuth } from "@/lib/auth-context"
 import { SellVehicleDialog } from "../components/sell-vehicle-dialog"
 
 export default function KendaraanDetailPage() {
-    const { isOwner, isDivisi, isWSHead, isDriver } = useAuth();
+    const { isOwner, isSecretary, isWSHead, isDriver } = useAuth();
 
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -495,7 +495,7 @@ export default function KendaraanDetailPage() {
                             <div className="flex flex-col gap-3">
                                 <div className="flex gap-5 items-center justify-between">
                                     <h1 className="font-semibold">Detail Kendaraan</h1>
-                                    {(isOwner || isDivisi) && (
+                                    {(isOwner || isSecretary) && (
                                         <EditDetailVehicleDialog vehicle={vehicle} onSave={() => fetchVehicleDetails(id!)} />
                                     )}
                                 </div>
@@ -512,7 +512,7 @@ export default function KendaraanDetailPage() {
                             </div>
 
                             {/* Action Buttons */}
-                            {(isOwner || isDivisi) && (
+                            {(isOwner || isSecretary) && (
                                 <div className="flex flex-col-reverse gap-3 sm:grid sm:grid-cols-2">
                                     <AlertDialog>
                                         <AlertDialogTrigger asChild>
@@ -561,7 +561,7 @@ export default function KendaraanDetailPage() {
                     </div>
 
                     {/* Info Bar */}
-                    {(isOwner || isDivisi || isDriver) && (
+                    {(isOwner || isSecretary || isDriver) && (
                         <div className="flex flex-col gap-5">
                             {/* Lokasi Bar */}
                             {(!vehicle.isSold) && (
@@ -587,7 +587,7 @@ export default function KendaraanDetailPage() {
                         </div>
                     )}
 
-                    {(isOwner || isDivisi) && (
+                    {(isOwner || isSecretary) && (
                         <div className="flex flex-col gap-5 md:flex-row">
                             {/* STNK Bar */}
                             <DataBarCard
@@ -616,7 +616,7 @@ export default function KendaraanDetailPage() {
                     )}
 
                     {/* STNK Details */}
-                    {(isOwner || isDivisi) && (
+                    {(isOwner || isSecretary) && (
                         <SectionCard
                             title="Detail STNK"
                             headerAction={
@@ -658,7 +658,7 @@ export default function KendaraanDetailPage() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         {/* Aktivitas Servis */}
-                        {(isOwner || isDivisi || isWSHead) && (
+                        {(isOwner || isWSHead) && (
                             <SectionCard
                                 title="Aktivitas Servis"
                                 headerAction={
@@ -689,7 +689,7 @@ export default function KendaraanDetailPage() {
                         )}
 
                         {/* Aktivitas Administrasi */}
-                        {(isOwner || isDivisi) && (
+                        {(isOwner || isSecretary) && (
                             <SectionCard
                                 title="Aktivitas Administrasi"
                                 headerAction={
@@ -721,7 +721,7 @@ export default function KendaraanDetailPage() {
                     </div>
 
                     {/* Kelengkapan Kendaraan */}
-                    {(isOwner || isDivisi) && (
+                    {(isOwner || isSecretary) && (
                         <SectionCard
                             title="Kelengkapan Kendaraan"
                             headerAction={
@@ -750,7 +750,7 @@ export default function KendaraanDetailPage() {
                     )}
 
                     {/* Lampiran Dokumen */}
-                    {(isOwner || isDivisi) && (
+                    {(isOwner || isSecretary) && (
                         <SectionCard
                             title="Lampiran Dokumen"
                             headerAction={

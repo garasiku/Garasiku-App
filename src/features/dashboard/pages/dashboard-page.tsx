@@ -8,7 +8,7 @@ import { LoadingOverlay } from "@/components/shared/loading-overlay";
 import { PENDING } from "@/lib/constants";
 
 export default function DashboardPage() {
-  const { user, isOwner, isDivisi, isWSHead } = useAuth();
+  const { user, isOwner, isSecretary, isWSHead } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const [activeVehicleCount, setActiveVehicleCount] = useState(0);
@@ -87,7 +87,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const fetchCounts = async () => {
-      if (!(isOwner || isDivisi || isWSHead)) return;
+      if (!(isOwner || isSecretary || isWSHead)) return;
       setLoading(true);
 
       try {
@@ -95,13 +95,13 @@ export default function DashboardPage() {
 
         const promises: Promise<any>[] = [];
 
-        if (isOwner || isDivisi) {
+        if (isOwner || isSecretary) {
           promises.push(fetchActiveVehicleCount());
           promises.push(fetchSoldVehicleCount());
           promises.push(fetchTodoAdministrationCount(futureDate));
         }
 
-        if (isOwner || isDivisi || isWSHead) {
+        if (isOwner || isWSHead) {
           promises.push(fetchTodoServiceCount(futureDate));
         }
 
@@ -114,7 +114,7 @@ export default function DashboardPage() {
     };
 
     fetchCounts();
-  }, [isOwner, isDivisi, isWSHead]);
+  }, [isOwner, isSecretary, isWSHead]);
 
   return (
     <>
@@ -126,7 +126,7 @@ export default function DashboardPage() {
           <p className="text-muted-foreground">Selamat datang, {userMeta?.fullname}!</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {(isOwner || isDivisi) && (
+            {(isOwner || isSecretary) && (
               <DashboardCard
                 title="Kendaraan Aktif"
                 count={activeVehicleCount}
@@ -138,7 +138,7 @@ export default function DashboardPage() {
               />
             )}
 
-            {(isOwner || isDivisi) && (
+            {(isOwner || isSecretary) && (
               <DashboardCard
                 title="Kendaraan Terjual"
                 count={soldVehicleCount}
@@ -150,7 +150,7 @@ export default function DashboardPage() {
               />
             )}
 
-            {(isOwner || isDivisi || isWSHead) && (
+            {(isOwner || isWSHead) && (
               <DashboardCard
                 title="To-do Servis"
                 count={todoServiceCount}
@@ -162,7 +162,7 @@ export default function DashboardPage() {
               />
             )}
 
-            {(isOwner || isDivisi) && (
+            {(isOwner || isSecretary) && (
               <DashboardCard
                 title="To-do Administrasi"
                 count={todoAdministrationCount}

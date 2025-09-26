@@ -34,7 +34,7 @@ import { toast } from "sonner";
 import { useAuth } from "@/lib/auth-context";
 
 export default function ServisDetailPage() {
-    const { isOwner, isDivisi } = useAuth();
+    const { isOwner } = useAuth();
 
     const [loading, setLoading] = useState(false);
 
@@ -279,7 +279,7 @@ export default function ServisDetailPage() {
                         </Link >
 
                         {/* Lokasi Bar */}
-                        {(isOwner || isDivisi) && latestLocation && (
+                        {(isOwner) && latestLocation && (
                             <Link to={`/kendaraan/detail/${service.vehicleId}/riwayat-lokasi`}>
                                 <DataBarCard
                                     variant="button"
@@ -319,7 +319,7 @@ export default function ServisDetailPage() {
                     </SectionCard>
 
                     {/* Lampiran Dokumen */}
-                    {(isOwner || isDivisi) && (
+                    {(isOwner) && (
                         <SectionCard
                             title="Lampiran Dokumen"
                             headerAction={

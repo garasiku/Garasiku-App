@@ -20,7 +20,7 @@ interface ImageCarouselProps {
 }
 
 export function ImageCarousel({ images, vehicleId, onSave }: ImageCarouselProps) {
-    const { isOwner, isDivisi } = useAuth();
+    const { isOwner, isSecretary } = useAuth();
 
     const [api, setApi] = useState<CarouselApi>()
     const [current, setCurrent] = useState(0)
@@ -61,7 +61,7 @@ export function ImageCarousel({ images, vehicleId, onSave }: ImageCarouselProps)
                 <div className="flex h-full items-center justify-center">
                     <ImageIcon className="h-12 w-12 text-muted-foreground" />
                 </div>
-                {(isOwner || isDivisi) && (
+                {(isOwner || isSecretary) && (
                     <EditImageVehicleDialog images={images} vehicleId={vehicleId} onSave={onSave} />
                 )}
             </div>
@@ -102,7 +102,7 @@ export function ImageCarousel({ images, vehicleId, onSave }: ImageCarouselProps)
                     <span className="text-foreground text-sm">{current} / {count}</span>
                 </div>
 
-                {(isOwner || isDivisi) && (
+                {(isOwner || isSecretary) && (
                     <EditImageVehicleDialog images={images} vehicleId={vehicleId} onSave={onSave} />
                 )}
             </Carousel>

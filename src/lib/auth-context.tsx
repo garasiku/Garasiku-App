@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import { ADMIN, DIVISI, DRIVER, OWNER, WSHEAD } from "./constants";
+import { ADMIN, SECRETARY, DRIVER, OWNER, WSHEAD } from "./constants";
 
 type AuthContextType = {
   user: any;
@@ -8,7 +8,7 @@ type AuthContextType = {
   isAuthenticated: boolean;
   loading: boolean;
   isOwner: boolean;
-  isDivisi: boolean;
+  isSecretary: boolean;
   isWSHead: boolean;
   isDriver: boolean;
   isAdmin: boolean;
@@ -20,7 +20,7 @@ const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   loading: true,
   isOwner: false,
-  isDivisi: false,
+  isSecretary: false,
   isWSHead: false,
   isDriver: false,
   isAdmin: false,
@@ -58,7 +58,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const isOwner = role === OWNER;
-  const isDivisi = role === DIVISI;
+  const isSecretary = role === SECRETARY;
   const isWSHead = role === WSHEAD;
   const isDriver = role === DRIVER;
   const isAdmin = role === ADMIN;
@@ -71,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isAuthenticated: !!user,
         loading,
         isOwner,
-        isDivisi,
+        isSecretary,
         isWSHead,
         isDriver,
         isAdmin

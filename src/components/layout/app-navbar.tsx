@@ -20,22 +20,22 @@ import {
 import { useCallback, useMemo } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { useAuth } from "@/lib/auth-context";
-import { ADMIN, DIVISI, DRIVER, OWNER, WSHEAD } from "@/lib/constants";
+import { ADMIN, SECRETARY, DRIVER, OWNER, WSHEAD } from "@/lib/constants";
 
 const items = [
-  { title: "Dashboard", url: "dashboard", roles: [OWNER, DIVISI, WSHEAD, DRIVER, ADMIN] },
+  { title: "Dashboard", url: "dashboard", roles: [OWNER, SECRETARY, WSHEAD, DRIVER, ADMIN] },
   {
-    title: "Garasi", url: "garasi", roles: [OWNER, DIVISI, WSHEAD, DRIVER], child: [
-      { title: "Daftar Kendaraan", url: "daftar-kendaraan/active", roles: [OWNER, DIVISI] },
-      { title: "Cari Kendaraan", url: "cari-kendaraan", roles: [OWNER, DIVISI, WSHEAD, DRIVER] },
+    title: "Garasi", url: "garasi", roles: [OWNER, SECRETARY, WSHEAD, DRIVER], child: [
+      { title: "Daftar Kendaraan", url: "daftar-kendaraan/active", roles: [OWNER, SECRETARY] },
+      { title: "Cari Kendaraan", url: "cari-kendaraan", roles: [OWNER, SECRETARY, WSHEAD, DRIVER] },
     ]
   },
-  { title: "Servis", url: "servis", roles: [OWNER, DIVISI, WSHEAD] },
+  { title: "Servis", url: "servis", roles: [OWNER, WSHEAD] },
   {
-    title: "Administrasi", url: "administrasi", roles: [OWNER, DIVISI], child: [
-      { title: "STNK 1 Tahun", url: "stnk-1", roles: [OWNER, DIVISI] },
-      { title: "STNK 5 Tahun", url: "stnk-5", roles: [OWNER, DIVISI] },
-      { title: "Asuransi", url: "asuransi", roles: [OWNER, DIVISI] },
+    title: "Administrasi", url: "administrasi", roles: [OWNER, SECRETARY], child: [
+      { title: "STNK 1 Tahun", url: "stnk-1", roles: [OWNER, SECRETARY] },
+      { title: "STNK 5 Tahun", url: "stnk-5", roles: [OWNER, SECRETARY] },
+      { title: "Asuransi", url: "asuransi", roles: [OWNER, SECRETARY] },
     ]
   },
   { title: "User", url: "user", roles: [ADMIN] },

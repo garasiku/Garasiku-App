@@ -1,14 +1,14 @@
 import { useAuth } from "@/lib/auth-context";
-import { ADMIN, DIVISI, DRIVER, OWNER, WSHEAD } from "@/lib/constants";
+import { ADMIN, SECRETARY, DRIVER, OWNER, WSHEAD } from "@/lib/constants";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 const ROLE_PERMISSIONS: Record<string, string[]> = {
-  "/dashboard": [OWNER, DIVISI, WSHEAD, DRIVER, ADMIN],
-  "/garasi/daftar-kendaraan": [OWNER, DIVISI],
-  "/garasi/cari-kendaraan": [OWNER, DIVISI, WSHEAD, DRIVER],
-  "/kendaraan/detail": [OWNER, DIVISI, WSHEAD, DRIVER],
-  "/servis": [OWNER, DIVISI, WSHEAD],
-  "/administrasi": [OWNER, DIVISI],
+  "/dashboard": [OWNER, SECRETARY, WSHEAD, DRIVER, ADMIN],
+  "/garasi/daftar-kendaraan": [OWNER, SECRETARY],
+  "/garasi/cari-kendaraan": [OWNER, SECRETARY, WSHEAD, DRIVER],
+  "/kendaraan/detail": [OWNER, SECRETARY, WSHEAD, DRIVER],
+  "/servis": [OWNER, WSHEAD],
+  "/administrasi": [OWNER, SECRETARY],
   "/user": [ADMIN],
   "/parameter": [ADMIN],
 };

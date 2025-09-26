@@ -65,7 +65,7 @@ export const STATUS_PARAM = [
 
 export const ROLE_PARAM = [
   { id: "1", group: "0005", name: "owner", description: "Owner" },
-  { id: "2", group: "0005", name: "divisi", description: "Divisi" },
+  { id: "2", group: "0005", name: "secretary", description: "Secretary" },
   { id: "3", group: "0005", name: "wshead", description: "WS-Head" },
   { id: "4", group: "0005", name: "driver", description: "Driver" },
   { id: "5", group: "0005", name: "admin", description: "Admin" },
@@ -74,7 +74,7 @@ export const ROLE_PARAM = [
 export const MAX_FILE_SIZE = 1 * 1024 * 1024; //1 MB
 
 export const OWNER = "owner";
-export const DIVISI = "divisi";
+export const SECRETARY = "secretary";
 export const WSHEAD = "wshead";
 export const DRIVER = "driver";
 export const ADMIN = "admin";

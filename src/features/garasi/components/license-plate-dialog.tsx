@@ -17,7 +17,7 @@ interface LicensePlateDialogProps {
 }
 
 export function LicensePlateDialog({ vehicleId, currPlateNo, onLicensePlateChange }: LicensePlateDialogProps) {
-    const { isOwner, isDivisi } = useAuth();
+    const { isOwner, isSecretary } = useAuth();
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false)
     const [listVehicleLicensePlates, setListVehicleLicensePlates] = useState<LicensePlateVehicle[]>([]);
@@ -68,7 +68,7 @@ export function LicensePlateDialog({ vehicleId, currPlateNo, onLicensePlateChang
             <LoadingOverlay loading={loading} />
 
             <Dialog open={open} onOpenChange={setOpen}>
-                {(isOwner || isDivisi) ? (
+                {(isOwner || isSecretary) ? (
                     <DialogTrigger asChild>
                         <Button asChild variant="outline">
                             <span className="font-medium">{currPlateNo}</span>
