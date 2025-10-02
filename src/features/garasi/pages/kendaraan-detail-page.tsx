@@ -288,8 +288,8 @@ export default function KendaraanDetailPage() {
             const base = data;
 
             setVehicleStnk({
-                id: base.stnk_id,
-                vehicleId: base.vehicleid,
+                id: base.id,
+                vehicleId: base.vehicle_id,
                 stnkNumber: base.stnk_number,
                 fuelType: base.fuel_type,
                 licensePlate: base.license_plate,

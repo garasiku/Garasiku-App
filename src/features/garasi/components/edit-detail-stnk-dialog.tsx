@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Edit } from "lucide-react"
+import { CalendarIcon, Edit } from "lucide-react"
 import { toast } from "sonner";
 
 import { Button } from "@/components/shadcn/button"
@@ -28,9 +28,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Stnk } from "@/models/stnk"
 import { supabase } from "@/lib/supabaseClient"
 import { LoadingOverlay } from "@/components/shared/loading-overlay";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/shadcn/popover";
+import { format } from "date-fns";
+import { Calendar } from "@/components/shadcn/calendar";
+import { cn } from "@/lib/utils";
 
 interface EditDetailStnkDialogProps {
-  stnk: Stnk | null
+  stnk: Stnk
   onSave?: (updatedStnk: Stnk) => void
 }
 
@@ -56,7 +60,7 @@ const formSchema = z.object({
   registrationYear: z.string().optional(),
   bpkbNumber: z.string().optional(),
   registrationNumber: z.string().optional(),
-  validUntil: z.string().optional(),
+  validUntil: z.date().optional(),
 })
 
 export function EditDetailStnkDialog({ stnk, onSave }: EditDetailStnkDialogProps) {
@@ -66,27 +70,27 @@ export function EditDetailStnkDialog({ stnk, onSave }: EditDetailStnkDialogProps
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      id: stnk?.id ?? "",
-      vehicleId: stnk?.vehicleId ?? "",
-      licensePlate: stnk?.licensePlate ?? undefined,
-      stnkNumber: stnk?.stnkNumber ?? undefined,
-      ownerName: stnk?.ownerName ?? undefined,
-      ownerAddress: stnk?.ownerAddress ?? undefined,
-      brand: stnk?.brand ?? undefined,
-      type: stnk?.type ?? undefined,
-      category: stnk?.category ?? undefined,
-      model: stnk?.model ?? undefined,
-      manufacturedYear: stnk?.manufacturedYear ?? undefined,
-      chassisNumber: stnk?.chassisNumber ?? undefined,
-      engineNumber: stnk?.engineNumber ?? undefined,
-      color: stnk?.color ?? undefined,
-      fuelType: stnk?.fuelType ?? undefined,
-      licensePlateColor: stnk?.licensePlateColor ?? undefined,
-      registrationYear: stnk?.registrationYear ?? undefined,
-      cylinderCapacity: stnk?.cylinderCapacity ?? undefined,
-      bpkbNumber: stnk?.bpkbNumber ?? undefined,
-      registrationNumber: stnk?.registrationNumber ?? undefined,
-      validUntil: stnk?.validUntil ?? undefined,
+      id: stnk.id,
+      vehicleId: stnk.vehicleId,
+      licensePlate: stnk.licensePlate ?? undefined,
+      stnkNumber: stnk.stnkNumber ?? undefined,
+      ownerName: stnk.ownerName ?? undefined,
+      ownerAddress: stnk.ownerAddress ?? undefined,
+      brand: stnk.brand ?? undefined,
+      type: stnk.type ?? undefined,
+      category: stnk.category ?? undefined,
+      model: stnk.model ?? undefined,
+      manufacturedYear: stnk.manufacturedYear ?? undefined,
+      chassisNumber: stnk.chassisNumber ?? undefined,
+      engineNumber: stnk.engineNumber ?? undefined,
+      color: stnk.color ?? undefined,
+      fuelType: stnk.fuelType ?? undefined,
+      licensePlateColor: stnk.licensePlateColor ?? undefined,
+      registrationYear: stnk.registrationYear ?? undefined,
+      cylinderCapacity: stnk.cylinderCapacity ?? undefined,
+      bpkbNumber: stnk.bpkbNumber ?? undefined,
+      registrationNumber: stnk.registrationNumber ?? undefined,
+      validUntil: stnk.validUntil ? new Date(stnk.validUntil) : undefined,
     },
   })
 
@@ -110,7 +114,7 @@ export function EditDetailStnkDialog({ stnk, onSave }: EditDetailStnkDialogProps
           registration_number: values.registrationNumber,
           chassis_number: values.chassisNumber,
           engine_number: values.engineNumber,
-          valid_until: values.validUntil,
+          valid_until: values.validUntil ? format(values.validUntil, "yyyy-MM-dd") : null,
           model: values.model,
           brand: values.brand,
           owner_name: values.ownerName,
@@ -129,7 +133,7 @@ export function EditDetailStnkDialog({ stnk, onSave }: EditDetailStnkDialogProps
 
       toast.success("Data STNK berhasil diperbarui.")
       if (onSave) {
-        onSave(data as Stnk)
+        onSave(data)
       }
 
       setOpen(false)
@@ -146,30 +150,28 @@ export function EditDetailStnkDialog({ stnk, onSave }: EditDetailStnkDialogProps
     setOpen(isOpen);
     if (isOpen) {
       reset({
-        id: stnk?.id ?? "",
-        vehicleId: stnk?.vehicleId ?? "",
-        licensePlate: stnk?.licensePlate ?? undefined,
-        stnkNumber: stnk?.stnkNumber ?? undefined,
-        ownerName: stnk?.ownerName ?? undefined,
-        ownerAddress: stnk?.ownerAddress ?? undefined,
-        brand: stnk?.brand ?? undefined,
-        type: stnk?.type ?? undefined,
-        category: stnk?.category ?? undefined,
-        model: stnk?.model ?? undefined,
-        manufacturedYear: stnk?.manufacturedYear ?? undefined,
-        chassisNumber: stnk?.chassisNumber ?? undefined,
-        engineNumber: stnk?.engineNumber ?? undefined,
-        color: stnk?.color ?? undefined,
-        fuelType: stnk?.fuelType ?? undefined,
-        licensePlateColor: stnk?.licensePlateColor ?? undefined,
-        registrationYear: stnk?.registrationYear ?? undefined,
-        cylinderCapacity: stnk?.cylinderCapacity ?? undefined,
-        bpkbNumber: stnk?.bpkbNumber ?? undefined,
-        registrationNumber: stnk?.registrationNumber ?? undefined,
-        validUntil: stnk?.validUntil ?? undefined,
+        id: stnk.id,
+        vehicleId: stnk.vehicleId,
+        licensePlate: stnk.licensePlate ?? undefined,
+        stnkNumber: stnk.stnkNumber ?? undefined,
+        ownerName: stnk.ownerName ?? undefined,
+        ownerAddress: stnk.ownerAddress ?? undefined,
+        brand: stnk.brand ?? undefined,
+        type: stnk.type ?? undefined,
+        category: stnk.category ?? undefined,
+        model: stnk.model ?? undefined,
+        manufacturedYear: stnk.manufacturedYear ?? undefined,
+        chassisNumber: stnk.chassisNumber ?? undefined,
+        engineNumber: stnk.engineNumber ?? undefined,
+        color: stnk.color ?? undefined,
+        fuelType: stnk.fuelType ?? undefined,
+        licensePlateColor: stnk.licensePlateColor ?? undefined,
+        registrationYear: stnk.registrationYear ?? undefined,
+        cylinderCapacity: stnk.cylinderCapacity ?? undefined,
+        bpkbNumber: stnk.bpkbNumber ?? undefined,
+        registrationNumber: stnk.registrationNumber ?? undefined,
+        validUntil: stnk.validUntil ? new Date(stnk.validUntil) : undefined,
       });
-    } else {
-      reset();
     }
   }
 
@@ -180,7 +182,7 @@ export function EditDetailStnkDialog({ stnk, onSave }: EditDetailStnkDialogProps
       <Dialog open={open} onOpenChange={handleDialogChange}>
         <DialogTrigger asChild>
           <Button variant="outline" size="sm" disabled={!stnk}>
-            <Edit className="mr-2 h-4 w-4" />
+            <Edit/>
             Ubah
           </Button>
         </DialogTrigger>
@@ -535,13 +537,39 @@ export function EditDetailStnkDialog({ stnk, onSave }: EditDetailStnkDialogProps
                       render={({ field }) => (
                         <FormItem className="space-y-1">
                           <FormLabel className="font-medium">Berlaku Sampai</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Masukkan berlaku sampai kendaraan"
-                              {...field}
-                              className="w-full"
-                            />
-                          </FormControl>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant={"outline"}
+                                  className={cn(
+                                    "pl-3 text-left font-normal",
+                                    !field.value && "text-muted-foreground"
+                                  )}
+                                >
+                                  {field.value ? (
+                                    format(field.value, "dd MMM yyyy")
+                                  ) : (
+                                    <span>Pilih tanggal berlaku STNK</span>
+                                  )}
+                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                              <Calendar
+                                mode="single"
+                                selected={field.value}
+                                captionLayout="dropdown"
+                                onSelect={field.onChange}
+                                startMonth={new Date(new Date().getFullYear() - 1, new Date().getMonth(), 1)}
+                                endMonth={new Date(new Date().getFullYear() + 5, new Date().getMonth(), 1)}
+                                disabled={(date: Date) =>
+                                  date < new Date("1900-01-01")
+                                }
+                              />
+                            </PopoverContent>
+                          </Popover>
                           <FormMessage />
                         </FormItem>
                       )}
