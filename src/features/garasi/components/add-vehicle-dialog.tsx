@@ -139,8 +139,6 @@ export function AddVehicleDialog({ onSave }: AddVehicleDialogProps) {
           year: values.year || new Date().getFullYear(),
           color: values.color,
           license_plate: values.licensePlate,
-          stnk_due_date: stnkDate ? format(stnkDate, "yyyy-MM-dd") : null,
-          insurance_due_date: insuranceDate ? format(insuranceDate, "yyyy-MM-dd") : null,
         })
         .select()
         .single();
