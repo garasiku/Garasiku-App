@@ -562,8 +562,8 @@ export function EditDetailStnkDialog({ stnk, onSave }: EditDetailStnkDialogProps
                                 selected={field.value}
                                 captionLayout="dropdown"
                                 onSelect={field.onChange}
-                                startMonth={new Date(new Date().getFullYear() - 1, new Date().getMonth(), 1)}
-                                endMonth={new Date(new Date().getFullYear() + 5, new Date().getMonth(), 1)}
+                                startMonth={new Date(new Date().getFullYear() - 100, new Date().getMonth(), 1)}
+                                endMonth={new Date(new Date().getFullYear() + 100, new Date().getMonth(), 1)}
                                 disabled={(date: Date) =>
                                   date < new Date("1900-01-01")
                                 }

@@ -62,7 +62,7 @@ export default function DaftarKendaraanPage() {
     const { data, error } = await supabase
       .from("vehicles_with_latest_location")
       .select("*")
-      .order("name", { ascending: true });
+      .order("created_at", { ascending: false });
 
     if (error) {
       console.error("List Vehicles fetch error:", error)
