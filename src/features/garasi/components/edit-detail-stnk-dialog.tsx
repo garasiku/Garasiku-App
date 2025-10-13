@@ -199,7 +199,7 @@ export function EditDetailStnkDialog({ stnk, onSave }: EditDetailStnkDialogProps
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Detail Kendaraan */}
+              {/* Detail STNK Kendaraan */}
               <div className="flex flex-col gap-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <FormField
