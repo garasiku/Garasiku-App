@@ -127,6 +127,21 @@ export function EditDetailVehicleDialog({ vehicle, onSave }: EditDetailVehicleDi
         throw new Error("Gagal mengubah data vehicle: " + error.message);
       }
 
+      const { error: errorStnk } = await supabase
+        .from("stnk")
+        .update({
+          category: values.category,
+          brand: values.brand,
+          type: values.type,
+          manufactured_year: values.year,
+          color: values.color
+        })
+        .eq("vehicle_id", values.id);
+
+      if (errorStnk) {
+        throw new Error("Gagal mengubah data stnk: " + errorStnk.message);
+      }
+
       toast.success("Data kendaraan berhasil diperbarui.")
 
       if (onSave) {

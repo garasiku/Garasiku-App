@@ -101,6 +101,15 @@ export function ChangeLicensePlateDialog({ vehicleId, currPlateNo, onSave, setLo
         throw new Error("Gagal mengubah plat no vehicles: " + updateError.message);
       }
 
+      const { error: errorStnk } = await supabase
+        .from("stnk")
+        .update({ license_plate: values.plateNo })
+        .eq("vehicle_id", vehicleId);
+
+      if (errorStnk) {
+        throw new Error("Gagal mengubah data stnk: " + errorStnk.message);
+      }
+
       toast.success("Plat nomor berhasil diperbarui.");
       if (onSave && inserted) {
         onSave({

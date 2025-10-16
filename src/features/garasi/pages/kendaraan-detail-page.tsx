@@ -458,6 +458,7 @@ export default function KendaraanDetailPage() {
         if (!vehicle) return;
 
         setVehicle({ ...vehicle, licensePlate: newPlate });
+        fetchVehicleStnk(id!);
     }
 
     if (!vehicle && !loading) return (
@@ -496,7 +497,13 @@ export default function KendaraanDetailPage() {
                                 <div className="flex gap-5 items-center justify-between">
                                     <h1 className="font-semibold">Detail Kendaraan</h1>
                                     {(isOwner || isSecretary) && (
-                                        <EditDetailVehicleDialog vehicle={vehicle} onSave={() => fetchVehicleDetails(id!)} />
+                                        <EditDetailVehicleDialog
+                                            vehicle={vehicle}
+                                            onSave={() => {
+                                                fetchVehicleDetails(id!);
+                                                fetchVehicleStnk(id!);
+                                            }}
+                                        />
                                     )}
                                 </div>
 
@@ -533,7 +540,7 @@ export default function KendaraanDetailPage() {
                                     </AlertDialog>
 
                                     {!vehicle.isSold && (
-                                        <SellVehicleDialog vehicle={vehicle} onSave={() => fetchVehicleDetails(id!)}/>
+                                        <SellVehicleDialog vehicle={vehicle} onSave={() => fetchVehicleDetails(id!)} />
                                     )}
 
                                     {vehicle.isSold && (
